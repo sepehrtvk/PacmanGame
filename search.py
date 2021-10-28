@@ -234,6 +234,48 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     # util.raiseNotDefined()
 
+    "Get the starting Node"
+    startingNode = problem.getStartState()
+
+    "check if the node is goal node or not "
+    if not problem.isGoalState(startingNode):
+
+        "Make PriorityQueue as fringe"
+        fringe = util.PriorityQueue()
+
+        "Have explored nodes to make sure we never expand them again"
+        explored = []
+
+        fringe.push((startingNode, [], 0), 0)
+
+        "check the fringe is empty"
+        fringeIsEmpty = fringe.isEmpty()
+
+        while not fringeIsEmpty:
+
+            "pop from fringe and get current node and actions"
+            currentNode, actions, prevCost = fringe.pop()
+
+            "check we have not been in this node before"
+            if currentNode not in explored:
+
+                explored.append(currentNode)
+
+                if not problem.isGoalState(currentNode):
+
+                    "get actions and add them with node to the fringe"
+                    for nextNode, action , currentCost in problem.getSuccessors(currentNode):
+                        newAction = actions + [action] 
+                        newCost = prevCost + currentCost 
+                        heuristicCost = prevCost + currentCost + heuristic(nextNode,problem)
+    
+                        fringe.push((nextNode, newAction, newCost),heuristicCost)
+
+                else : return actions
+
+            fringeIsEmpty = fringe.isEmpty()
+
+    else : return []
 
 
 
