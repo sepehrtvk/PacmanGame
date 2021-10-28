@@ -117,6 +117,7 @@ def depthFirstSearch(problem):
                 explored.append(currentNode)
 
                 if not problem.isGoalState(currentNode):
+
                     "get actions and add them with node to the fringe"
                     for nextNode, action , cost in problem.getSuccessors(currentNode):
                         newAction = actions + [action] 
@@ -125,13 +126,53 @@ def depthFirstSearch(problem):
                 else : return actions
 
             fringeIsEmpty = fringe.isEmpty()
+            
     else : return []
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # util.raiseNotDefined()
 
+    "Get the starting Node"
+    startingNode = problem.getStartState()
+
+    "check if the node is goal node or not "
+    if not problem.isGoalState(startingNode):
+
+        "Make Queue as fringe"
+        fringe = util.Queue()
+
+        "Have explored nodes to make sure we never expand them again"
+        explored = []
+
+        fringe.push((startingNode, []))
+
+        "check the fringe is empty"
+        fringeIsEmpty = fringe.isEmpty()
+
+        while not fringeIsEmpty:
+
+            "pop from fringe and get current node and actions"
+            currentNode, actions = fringe.pop()
+
+            "check we have not been in this node before"
+            if currentNode not in explored:
+
+                explored.append(currentNode)
+
+                if not problem.isGoalState(currentNode):
+
+                    "get actions and add them with node to the fringe"
+                    for nextNode, action , cost in problem.getSuccessors(currentNode):
+                        newAction = actions + [action] 
+                        fringe.push((nextNode, newAction))
+
+                else : return actions
+
+            fringeIsEmpty = fringe.isEmpty()
+
+    else : return []
 
 
 def uniformCostSearch(problem):
