@@ -399,24 +399,32 @@ def cornersHeuristic(state, problem):
 
     "*** YOUR CODE HERE ***"
     # return 0 # Default to trivial solution
-    
-    visitedCorners = state[1]
+
+
+    "state is an array with 2 parts. first is current node and second is visited corners until now."
+    coordinate = state[0]
+    exploredCorners = state[1]
+
+    estimateCost = 0
+    currentCorner = coordinate
+
     cornersLeftToVisit = []
+
     for corner in corners:
-        if corner not in visitedCorners:
+        if corner not in exploredCorners:
             cornersLeftToVisit.append(corner)
 
-    # While not all corners are visited find via manhattanDistance
-    #  the most efficient path for each corner
-    totalCost = 0
-    coordinate = state[0]
-    curPoint = coordinate
-    while cornersLeftToVisit:
-        heuristic_cost, corner = min([(util.manhattanDistance(curPoint, corner), corner) for corner in cornersLeftToVisit])
+    "find the best path to each corner , via manhattanDistance until explor all the corners"
+    
+    while len(cornersLeftToVisit) !=0 :
+
+        dist = util.manhattanDistance(currentCorner, corner)
+        heuristic, corner = min([(dist,corner) for corner in cornersLeftToVisit])
         cornersLeftToVisit.remove(corner)
-        curPoint = corner
-        totalCost += heuristic_cost
-    return totalCost
+        currentCorner = corner
+        estimateCost += heuristic
+
+    return estimateCost
 
 
 class AStarCornersAgent(SearchAgent):
