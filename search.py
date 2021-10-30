@@ -101,6 +101,7 @@ def depthFirstSearch(problem):
         "Have explored nodes to make sure we never expand them again"
         explored = []
 
+        "push starting node to fringe"
         fringe.push((startingNode, []))
 
         "check the stack is empty"
@@ -192,6 +193,7 @@ def uniformCostSearch(problem):
         "Have explored nodes to make sure we never expand them again"
         explored = []
 
+        "((node , action to current node , cost to current node),priority)"
         fringe.push((startingNode, [], 0), 0)
 
         "check the fringe is empty"
@@ -199,7 +201,7 @@ def uniformCostSearch(problem):
 
         while not fringeIsEmpty:
 
-            "pop from fringe and get current node and actions"
+            "pop from fringe and get current node and actions and costs"
             currentNode, actions, prevCost = fringe.pop()
 
             "check we have not been in this node before"
