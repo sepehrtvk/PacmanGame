@@ -517,23 +517,22 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position, foodGrid = state
+    position , foodGrid = state
     "*** YOUR CODE HERE ***"
 
-    foodpos=foodGrid.asList()
+    foodpos = foodGrid.asList()
     foodLenght = len(foodpos)
 
     startNode = problem.startingGameState
 
     "heuristic cost for each food"
-    estimateCost=[0] * foodLenght
+    estimateCost = [0] * foodLenght
 
     "we loop through all dots and use mazeDistance to find the distance betwen 2 positions , then return maximum cost."
-    if foodLenght!=0:    
+    if foodLenght != 0:    
 
         for i in range(foodLenght): 
-            estimateCost[i] = mazeDistance(position,foodpos[i],startNode)  
-
+            estimateCost[i] = mazeDistance(position,foodpos[i],startNode)
         return max(estimateCost)
 
     else : return 0                                                  
