@@ -401,6 +401,27 @@ def cornersHeuristic(state, problem):
     # return 0 # Default to trivial solution
 
 
+
+    visitedCorners = state[1]
+    cornersLeftToVisit = []
+    for corner in corners:
+        if corner not in visitedCorners:
+            cornersLeftToVisit.append(corner)
+
+    # While not all corners are visited find via manhattanDistance
+    #  the most efficient path for each corner
+    totalCost = 0
+    coordinate = state[0]
+    curPoint = coordinate
+    while cornersLeftToVisit:
+        heuristic_cost, corner = \
+            min([(util.manhattanDistance(curPoint, corner), corner) for corner in cornersLeftToVisit])
+        cornersLeftToVisit.remove(corner)
+        curPoint = corner
+        totalCost += heuristic_cost
+    return totalCost
+
+
     "state is an array with 2 parts. first is current node and second is visited corners until now."
     coordinate = state[0]
     exploredCorners = state[1]
@@ -522,17 +543,16 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    # pos,food=state
-    # foodpos=food.asList()
-    # fcost=[0]*len(foodpos)
-    # if len(foodpos)==0:                                                  #Here we are using the mazeDistance for finding the distance to food
-    #     return 0                                                         #and we are returning the max cost (Notation:It is taking 20 sec but)
-    # for i in range(len(foodpos)):                                        #it expands only 4100 and something nodes).We can do the same with
-    #     fcost[i]=mazeDistance(pos,foodpos[i],problem.startingGameState)   #the cornersheuristis using manhattanheuristic but for food and corners
-    # Max=max(fcost)
-    # return Max
+    pos,food=state
+    foodpos=food.asList()
+    fcost=[0]*len(foodpos)
+    if len(foodpos)==0:                                                  #Here we are using the mazeDistance for finding the distance to food
+        return 0                                                         #and we are returning the max cost (Notation:It is taking 20 sec but)
+    for i in range(len(foodpos)):                                        #it expands only 4100 and something nodes).We can do the same with
+        fcost[i]=mazeDistance(pos,foodpos[i],problem.startingGameState)   #the cornersheuristis using manhattanheuristic but for food and corners
+    Max=max(fcost)
+    return Max
 
-    return len(foodGrid.asList())
 
 
     foodL = foodGrid.asList()
@@ -628,7 +648,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
 
         # "find greedily the closest goal"
         dotsList = self.food.asList()
-        
+
         if state in dotsList:
             return True
         else:
