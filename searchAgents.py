@@ -519,15 +519,24 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    pos,food=state
-    foodpos=food.asList()
-    fcost=[0]*len(foodpos)
-    if len(foodpos)==0:                                                  #Here we are using the mazeDistance for finding the distance to food
-        return 0                                                         #and we are returning the max cost (Notation:It is taking 20 sec but)
-    for i in range(len(foodpos)):                                        #it expands only 4100 and something nodes).We can do the same with
-        fcost[i]=mazeDistance(pos,foodpos[i],problem.startingGameState)   #the cornersheuristis using manhattanheuristic but for food and corners
-    Max=max(fcost)
-    return Max
+
+    foodpos=foodGrid.asList()
+    foodLenght = len(foodpos)
+
+    startNode = problem.startingGameState
+
+    "heuristic cost for each food"
+    estimateCost=[0] * foodLenght
+
+    "we loop through all dots and use mazeDistance to find the distance betwen 2 positions , then return maximum cost."
+    if foodLenght!=0:    
+
+        for i in range(foodLenght): 
+            estimateCost[i] = mazeDistance(position,foodpos[i],startNode)  
+
+        return max(estimateCost)
+
+    else : return 0                                                  
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
