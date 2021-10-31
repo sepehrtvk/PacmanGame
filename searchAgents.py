@@ -419,7 +419,10 @@ def cornersHeuristic(state, problem):
     while len(cornersLeftToVisit) !=0 :
 
         dist = util.manhattanDistance(currentCorner, corner)
-        heuristic, corner = min([(dist,corner) for corner in cornersLeftToVisit])
+
+        "find the closest corner"
+        list  = [(dist,corner) for corner in cornersLeftToVisit]
+        heuristic, corner = min(list)
         cornersLeftToVisit.remove(corner)
         currentCorner = corner
         estimateCost += heuristic
