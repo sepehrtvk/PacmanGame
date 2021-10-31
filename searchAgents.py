@@ -586,10 +586,9 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        #return search.dfs(problem)   # 5324
-        return search.bfs(problem)   # 350
-        #return search.ucs(problem)   # 350
-        #return search.astar(problem) # 350
+
+        "here we use BFS to find path to Closest dot (we can also use ucs and astar)"
+        return search.bfs(problem)   
 
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -626,13 +625,15 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
+
+        # "find greedily the closest goal"
+        dotsList = self.food.asList()
         
-        # find greedily the closest dot to eat (= goal)
-        distance, goal = min([(util.manhattanDistance(state, goal), goal) for goal in self.food.asList()])
-        if state == goal:
+        if state in dotsList:
             return True
         else:
             return False
+
 
 
 def mazeDistance(point1, point2, gameState):
